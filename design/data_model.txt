@@ -1,0 +1,9 @@
+Data to be stored
+Game, Question score, Question Category, Question Score, Question Text, Question Image
+
+CATEGORY(Name)
+GAME(Name, CATEGORY(NULL) * 4)
+Question(Question Text, Question Image, CATEGORY, GAME)
+
+Validation rule for Question
+Question.CATEGORY must be in GAME.CATEGORIES
