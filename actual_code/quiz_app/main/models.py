@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
 
 # Create your models here.
 class Game(models.Model):
@@ -8,23 +11,25 @@ class Game(models.Model):
     category_3 = models.CharField(max_length=20, null=True, blank=True)
     category_4 = models.CharField(max_length=20, null=True, blank=True)
 
+
+def get_image_name(instance, filename):
+    return f"images/{instance.id} {filename}"
+
+
+
 class Question(models.Model):
-    question_text = models.TextField()
-    question_image = models.BinaryField()
+    question_text = models.TextField(blank=True, null=True)
+    question_image = models.ImageField(upload_to=get_image_name, blank=True, null=True)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    
-    def get_categories(self):
-        possible_categories = {self.game.category_1: self.game.category_1, self.game.category_2: self.game.category_2}
+    category = models.CharField(max_length=20)
 
-        if self.game.category_3:
-            possible_categories[self.game.category_3] = self.game.category_3
-
-        if self.game.category_4:
-            possible_categories[self.game.category_3] = self.game.category_4
-
-        return possible_categories
-    
-    category = models.CharField(max_length=20, choices=get_categories)
+    def clean(self):
+        if not (self.category in (self.game.category_1, self.game.category_2, self.game.category_3, self.game.category_4)) :
+            raise ValidationError(
+                _('The category must be a category within the game')
+            )
+        
+        super().clean()
 
 
         
