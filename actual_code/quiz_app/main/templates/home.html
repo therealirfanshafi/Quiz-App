@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% extends 'base_bootstrap.html'%}
+    {% block content%}
+        <h1>Welcome to the main menu of the quiz app</h1>
+        <h3>What would you like to do</h3>
+        <ul>
+            {%if completed_games %}
+                <li><a href="{% url 'main:game_selection'%}">Play a game</a></li>
+            {% endif %}
+            <li><a href="{% url 'main:game_create'%}">Create a game</a></li>
+            {%if created_games %}
+                <li><a href="{% url 'main:question_create'%}">Create a question</a></li>
+            {% endif %}
+        </ul>
+    {% endblock %}
+</body>
+</html>

@@ -12,8 +12,12 @@ class Game(models.Model):
     category_4 = models.CharField(max_length=20, null=True, blank=True)
 
 
+    def __str__(self):
+        return self.name
+
+
 def get_image_name(instance, filename):
-    return f"images/{instance.id} {filename}"
+    return f"images/{instance.game} {instance} {filename}"
 
 
 
@@ -21,6 +25,7 @@ class Question(models.Model):
     question_text = models.TextField(blank=True, null=True)
     question_image = models.ImageField(upload_to=get_image_name, blank=True, null=True)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    points = models.IntegerField()
     category = models.CharField(max_length=20)
 
     def clean(self):
@@ -29,7 +34,20 @@ class Question(models.Model):
                 _('The category must be a category within the game')
             )
         
+        if not (self.question_text or self.question_image):
+            raise ValidationError(
+                _('The text or image must be present')
+            )
+
         super().clean()
+
+    def delete(self, *args, **kwargs):
+        self.question_image.delete()
+        super(Question, self).delete(*args, **kwargs)
+
+    
+    def __str__(self):
+        return f"{self.category} for {self.points}"
 
 
         

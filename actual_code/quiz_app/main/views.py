@@ -1,9 +1,45 @@
-from django.shortcuts import render
+from typing import Any
+from django.db.models.query import QuerySet
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.http import HttpResponse
+from django.db.models import Count
 from django.views import View
+from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import *
 
 # Create your views here.
 class Home(LoginRequiredMixin, View):
     def get(self, request):
-        return HttpResponse('Page Works Successfully')
+        created_games = Game.objects.all()
+        completed_games = Game.objects.annotate(num_qs=Count('question')).filter(num_qs=20)
+        ctx = {'created_games': created_games, 'completed_games':completed_games}
+        return render(request, 'home.html', ctx)
+    
+
+class GameSelectorView(LoginRequiredMixin, ListView):
+    model = Game
+    template_name = 'game_selector.html'
+    context_object_name = 'games'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        games = super().get_queryset()
+        games = games.annotate(num_qs=Count('question')).filter(num_qs=20)
+        if games:
+            return games
+        return redirect(reverse_lazy('main:home_page'))
+    
+
+class GameCreateView(LoginRequiredMixin, CreateView):
+    model = Game
+    template_name = 'create.html'
+    success_url = reverse_lazy('main:home_page')
+    fields = '__all__'
+
+
+class QuestioNCreateView(LoginRequiredMixin, CreateView):
+    model = Question
+    template_name = 'create.html'
+    fields = '__all__'
+    success_url = reverse_lazy('main:home_page')
