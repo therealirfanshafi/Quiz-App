@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Game(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     category_1 = models.CharField(max_length=20)
     category_2 = models.CharField(max_length=20)
     category_3 = models.CharField(max_length=20, null=True, blank=True)
@@ -47,7 +47,7 @@ class Question(models.Model):
 
     
     def __str__(self):
-        return f"{self.category} for {self.points}"
+        return f"{self.category} for {self.points} in {self.game.name}"
 
 
         

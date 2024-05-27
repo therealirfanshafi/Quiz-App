@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% extends "base_bootstrap.html" %}
+    {% block content %}
+        <ul>
+            <h3>Select an option</h3>
+            {% for game in games %}
+                <li>{{game}} (
+                    {% if game.question_set.all %}
+                        <a href="{% url 'main:question_update_list' game.id%}">Update questions</a> |
+                    {% endif %}
+                    <a href="{% url 'main:game_update' game.id %}">Update Game Info</a> | <a href="{% url 'main:game_delete' game.id %}">Delete Game</a>)
+                </li>
+            {% endfor%}
+        </ul>
+    
+    <button onclick="window.location='{% url 'main:home_page' %}'; return false;">Go Back</button>
+    {% endblock %}
+</body>
+</html>

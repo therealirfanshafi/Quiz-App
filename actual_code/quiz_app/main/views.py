@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.db.models import Count
 from django.views import View
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 
@@ -38,8 +38,48 @@ class GameCreateView(LoginRequiredMixin, CreateView):
     fields = '__all__'
 
 
-class QuestioNCreateView(LoginRequiredMixin, CreateView):
+class QuestionCreateView(LoginRequiredMixin, CreateView):
     model = Question
     template_name = 'create.html'
     fields = '__all__'
     success_url = reverse_lazy('main:home_page')
+
+
+class GameUpdateListView(LoginRequiredMixin, ListView):
+    model = Game
+    template_name = 'game_updator.html'
+    context_object_name = 'games'
+
+
+class GameUpdateView(LoginRequiredMixin, UpdateView):
+    model = Game
+    template_name = 'create.html'
+    success_url = reverse_lazy('main:home_page')
+    fields = '__all__'
+
+
+class GameDeleteView(LoginRequiredMixin, DeleteView):
+    model = Game
+    template_name = 'delete.html'
+    context_object_name = 'object'
+    success_url = reverse_lazy('main:home_page')
+
+
+class QuestionUpdateListView(LoginRequiredMixin, DetailView):
+    model = Game
+    template_name = 'question_updator.html'
+    context_object_name = 'game'
+
+
+class QuestionUpdateView(LoginRequiredMixin, UpdateView):
+    model = Question
+    template_name = 'create.html'
+    fields = '__all__'
+    success_url = reverse_lazy('main:game_update_list')
+
+
+class QuestionDeleteView(LoginRequiredMixin, DeleteView):
+    model = Question
+    template_name = 'delete.html'
+    context_object_name = 'object'
+    success_url = reverse_lazy('main:game_update_list')

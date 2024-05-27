@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% extends "base_bootstrap.html" %}
+    {% block content%}
+        <ul>
+            {% for question in game.question_set.all %}
+                <li>{{question}} (<a href="{% url 'main:question_update' question.id %}">Update</a> | <a href="{% url 'main:question_delete' question.id %}">Delete</a> )</li>
+            {% endfor%}
+        </ul>
+        <button onclick="window.location='{% url 'main:game_update_list' %}'; return false;">Go Back</button> 
+    {% endblock %}
+</body>
+</html>

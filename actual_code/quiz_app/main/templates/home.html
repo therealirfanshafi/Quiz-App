@@ -17,6 +17,7 @@
             <li><a href="{% url 'main:game_create'%}">Create a game</a></li>
             {%if created_games %}
                 <li><a href="{% url 'main:question_create'%}">Create a question</a></li>
+                <li><a href="{% url 'main:game_update_list' %}">Update the games</a></li>
             {% endif %}
         </ul>
     {% endblock %}
