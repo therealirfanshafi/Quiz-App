@@ -27,6 +27,7 @@ class Question(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     points = models.IntegerField()
     category = models.CharField(max_length=20)
+    answer = models.CharField(max_length=50)
 
     def clean(self):
         if not (self.category in (self.game.category_1, self.game.category_2, self.game.category_3, self.game.category_4)) :

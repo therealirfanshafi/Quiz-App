@@ -13,5 +13,7 @@ urlpatterns = [
     path('game-delete/<int:pk>', views.GameDeleteView.as_view(), name='game_delete'),
     path('question-update-list/<int:pk>', views.QuestionUpdateListView.as_view(), name='question_update_list'),
     path('question-update/<int:pk>', views.QuestionUpdateView.as_view(), name='question_update'),
-    path('question-delete/<int:pk>', views.QuestionDeleteView.as_view(), name='question_delete')
+    path('question-delete/<int:pk>', views.QuestionDeleteView.as_view(), name='question_delete'),
+    path('game-play/<int:pk>', views.GamePlayView.as_view(), name='game_board'),
+    path('question-view/<int:pk>', views.QuestionDetailView.as_view(), name='show_question')
 ]

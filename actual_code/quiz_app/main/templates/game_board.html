@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'board_style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    {% load calculations %}
+    <div class="board">
+        <h1 class="row-1 col-1">{{game.category_1}}</h1>
+        <h1 id="row-1 col-2">{{game.category_2}}</h1>
+        {% if game.category_3 %}
+        <h1 id="row-1 col-3">{{game.category_3}}</h1>
+        {% endif %}
+        {% if game.category_4 %}
+        <h1 id="row-1 col-4">{{game.category_4}}</h1>
+        {% endif %}
+        {% for question in game.question_set.all %}
+            {% if question.category == game.category_1 %}
+                <div class="col-1 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;">{{question.points}}</button></div>
+            {% elif question.category == game.category_2 %}
+                <div class="col-2 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;">{{question.points}}</button></div>
+            {% elif question.category == game.category_3 %}
+                <div class="col-3 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;">{{question.points}}</button></div>
+            {% else %}
+                <div class="col-4 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;">{{question.points}}</button></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>

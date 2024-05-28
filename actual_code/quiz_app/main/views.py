@@ -83,3 +83,15 @@ class QuestionDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'delete.html'
     context_object_name = 'object'
     success_url = reverse_lazy('main:game_update_list')
+
+
+class GamePlayView(LoginRequiredMixin, DetailView):
+    model = Game
+    template_name = 'game_board.html'
+    context_object_name = 'game'
+
+
+class QuestionDetailView(LoginRequiredMixin, DetailView):
+    model = Question
+    template_name = 'show_question.html'
+    context_object_name = 'question'
