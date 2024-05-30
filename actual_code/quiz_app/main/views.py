@@ -55,7 +55,12 @@ class GameUpdateView(LoginRequiredMixin, UpdateView):
     model = Game
     template_name = 'create.html'
     success_url = reverse_lazy('main:home_page')
-    fields = '__all__'
+    fields = ('name',)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['message'] = 'You cannot update categories once set as it will cause data inconsistencies. Consider creating a new game'
+        return ctx
 
 
 class GameDeleteView(LoginRequiredMixin, DeleteView):

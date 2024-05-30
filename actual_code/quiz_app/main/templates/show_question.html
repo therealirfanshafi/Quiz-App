@@ -1,16 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static 'question_view_script.js' %}"></script>
     <title>Document</title>
 </head>
 <body>
-    {% if question.question_text %}
-        <h1>{{question.question_text}}</h1>
-    {% endif %}
-    {% if question.question_image %}
-        <img alt="{{question.question_text}}" src="{{question.question_image.url}}" width="500px">
-    {% endif %}
+    <div id="main">
+        {% if question.question_text %}
+            <h1>{{question.question_text}}</h1>
+        {% endif %}
+        {% if question.question_image %}
+            <img alt="{{question.question_text}}" src="{{question.question_image.url}}" width="500px">
+        {% endif %}
+        <div style="width: 60%; height: 20px;">
+            <div id="progess-bar" style="background-color: green; width: 100%; height: 20px;"></div>
+        </div>
+        <div id="steal" style="display: none;">
+            <p>Steal</p>
+            <button onclick="selectTeam()">a</button>
+            <button onclick="selectTeam()">b</button>
+            <button onclick="selectTeam()">c</button>
+            <button onclick="selectTeam()">d</button>
+        </div>
+    </div>
+    <div id="answer" style="display: none;">
+        <h1>The correct answer is:</h1>
+        <h3>{{question.answer}}</h3>
+    </div>
 </body>
 </html>

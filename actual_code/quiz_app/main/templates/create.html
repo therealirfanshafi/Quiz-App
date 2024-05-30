@@ -15,6 +15,9 @@
             <input type="submit" value="Submit" id="submit" class="confirm">
             <input type="submit" value="Cancel" id="cancel" class="confirm" onclick="window.location='{% url 'main:home_page' %}'; return false;">
         </form>
+        {% if message %}
+            {{message}}
+        {% endif %}
     {% endblock %}
 </body>
 </html>
