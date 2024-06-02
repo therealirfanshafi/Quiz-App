@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'board_style.css' %}">
     <title>Document</title>
+    <script src="{% static 'game_board_script.js' %}"></script>
 </head>
 <body>
     {% load calculations %}
@@ -20,13 +21,13 @@
         {% endif %}
         {% for question in game.question_set.all %}
             {% if question.category == game.category_1 %}
-                <div class="col-1 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;">{{question.points}}</button></div>
+                <div class="col-1 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;" id="{{question.id}}">{{question.points}}</button></div>
             {% elif question.category == game.category_2 %}
-                <div class="col-2 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;">{{question.points}}</button></div>
+                <div class="col-2 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;" id="{{question.id}}">{{question.points}}</button></div>
             {% elif question.category == game.category_3 %}
-                <div class="col-3 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;">{{question.points}}</button></div>
+                <div class="col-3 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;" id="{{question.id}}">{{question.points}}</button></div>
             {% else %}
-                <div class="col-4 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;">{{question.points}}</button></div>
+                <div class="col-4 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;" id="{{question.id}}">{{question.points}}</button></div>
             {% endif %}
         {% endfor %}
     </div>

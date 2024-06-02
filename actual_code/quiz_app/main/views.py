@@ -96,6 +96,11 @@ class GamePlayView(LoginRequiredMixin, DetailView):
     context_object_name = 'game'
 
 
+class TeamSetView(LoginRequiredMixin, View):
+    def get(self, request, game_id):
+        ctx = {'game_id': game_id}
+        return render(request, 'team_set.html', ctx)
+
 class QuestionDetailView(LoginRequiredMixin, DetailView):
     model = Question
     template_name = 'show_question.html'

@@ -11,9 +11,10 @@
         <h1>Pick a Game</h1>
         <ul>
             {% for game in games%}
-                <li><a href="{% url 'main:game_board' game.id%}">{{game}}</a></li>
+                <li><a href="{% url 'main:team_set' game.id%}">{{game}}</a></li>
             {% endfor %}
         </ul>
+        <button onclick="window.location='{% url 'main:home_page' %}'; return false;">Go back</button>
     {% endblock %}
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="{% static 'team_setter.js' %}" defer></script>
+</head>
+<body>
+    <form id="team-selector">
+        <input type="text" id="team-1">
+        <label for="team-1">Team 1</label>
+        <input type="text" id="team-2">
+        <label for="team-2">Team 2</label>
+        <input type="text" id="team-3">
+        <label for="team-3">Team 3</label>
+        <input type="text" id="team-4">
+        <label for="team-4">Team 4</label>
+        <input type="submit" value="Continue">
+        <input type="submit" value="Cancel" onclick="window.location='{% url 'main:game_selection' %}'; return false;">
+    </form>
+    <p style="display: none;" id="url-holder">{% url 'main:game_board' game_id %}</p>
+</body>
+</html>
