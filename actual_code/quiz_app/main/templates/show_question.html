@@ -21,11 +21,15 @@
         <div id="steal" style="display: none;">
             <p>Steal</p>
         </div>
+        <button id="stop-timer">Stop Timer</button>
+        <button id="check-answer" style="display: none;" oncontextmenu="event.preventDefault()">Check Answer</button>
     </div>
     <div id="answer" style="display: none;">
         <h1>The correct answer is:</h1>
         <h3>{{question.answer}}</h3>
+        <button onclick="window.location = '{% url 'main:game_board' question.game.id %}'">Back to board</button>
     </div>
     <p id="question-id-holder" style="display: none;">{{question.id}}</p>
+    <p id="question-points-holder" style="display: none;">{{question.points}}</p>
 </body>
 </html>
