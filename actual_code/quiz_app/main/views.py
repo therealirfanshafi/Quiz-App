@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.db.models import Count
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 
@@ -105,3 +106,7 @@ class QuestionDetailView(LoginRequiredMixin, DetailView):
     model = Question
     template_name = 'show_question.html'
     context_object_name = 'question'
+
+
+class ResultsView(LoginRequiredMixin, TemplateView):
+    template_name = 'results.html'

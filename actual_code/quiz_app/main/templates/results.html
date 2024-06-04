@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="{% static 'results_script.js' %}"></script>
+</head>
+<body>
+    <button onclick="document.getElementById('4th-place-container').style.display = 'block';">Click to reveal 4th place</button>
+    <div id="4th-place-container" style="display: none;">
+        <p id="4-place"></p>
+        <button onclick="document.getElementById('3rd-place-container').style.display = 'block';">Click to reveal 3rd place</button>
+    </div>
+    <div id="3rd-place-container" style="display: none;">
+        <p id="3-place"></p>
+        <button onclick="document.getElementById('1st-place-container').style.display = 'block';">Click to reveal 2nd and 1st place</button>
+    </div>
+    <div id="1st-place-container" style="display: none;">
+        <p id="2-place"></p>
+        <br>
+        <p id="1-place"></p>
+        <button onclick="window.location='{% url 'main:home_page' %}'">Back to main menu</button>
+    </div>
+</body>
+</html>

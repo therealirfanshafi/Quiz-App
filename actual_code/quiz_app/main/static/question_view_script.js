@@ -55,15 +55,16 @@ window.onload = () => {
     document.getElementById('check-answer').addEventListener('mouseup', (e) => {
         if (e.button === 0) {
             if (state === 0 ) {
-                sessionStorage.setItem(teams[currentTeam], Number(sessionStorage.getItem(teams[currentTeam]) + Number(document.getElementById('question-points-holder').textContent)));
+                sessionStorage.setItem(teams[currentTeam], Number(Number(sessionStorage.getItem(teams[currentTeam])) + Number(document.getElementById('question-points-holder').textContent)));
                 
             } else {
-                sessionStorage.setItem(teams[stealTeam], Number(sessionStorage.getItem(teams[stealTeam]) + Number(document.getElementById('question-points-holder').textContent)));
+                sessionStorage.setItem(teams[stealTeam], Number(Number(sessionStorage.getItem(teams[stealTeam])) + Number(document.getElementById('question-points-holder').textContent)));
             }
             showAnswer()
         } else {
+            
             if (state === 0 ) {
-                sessionStorage.setItem(teams[currentTeam], Number(sessionStorage.getItem(teams[currentTeam]) - Number(document.getElementById('question-points-holder').textContent)));
+                sessionStorage.setItem(teams[currentTeam], Number(Number(sessionStorage.getItem(teams[currentTeam])) - Number(document.getElementById('question-points-holder').textContent)));
                 document.getElementById('steal').style.display = 'block';
                 document.getElementById('stop-timer').style.display = 'none';
                 document.getElementById('check-answer').style.display = 'none';
@@ -72,7 +73,7 @@ window.onload = () => {
                 id = setInterval(timer, 10)
                 
             } else {
-                sessionStorage.setItem(teams[stealTeam], Number(sessionStorage.getItem(teams[stealTeam]) - Number(document.getElementById('question-points-holder').textContent)));
+                sessionStorage.setItem(teams[stealTeam], Number(Number(sessionStorage.getItem(teams[stealTeam])) - Number(document.getElementById('question-points-holder').textContent)));
                 showAnswer()
             }
 
@@ -88,7 +89,7 @@ window.onload = () => {
                 showAnswer()
             } else {
                 callCount = 3000;
-                sessionStorage.setItem(teams[currentTeam], Number(sessionStorage.getItem(teams[currentTeam]) - Number(document.getElementById('question-points-holder').textContent)));
+                sessionStorage.setItem(teams[currentTeam], Number(Number(sessionStorage.getItem(teams[currentTeam])) - Number(document.getElementById('question-points-holder').textContent)));
                 document.getElementById('steal').style.display = 'block';
                 document.getElementById('stop-timer').style.display = 'none'
             }

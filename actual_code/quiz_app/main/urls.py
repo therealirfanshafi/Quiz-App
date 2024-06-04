@@ -16,5 +16,6 @@ urlpatterns = [
     path('question-delete/<int:pk>', views.QuestionDeleteView.as_view(), name='question_delete'),
     path('team-set/<int:game_id>', views.TeamSetView.as_view(), name='team_set'),
     path('game-play/<int:pk>', views.GamePlayView.as_view(), name='game_board'),
-    path('question-view/<int:pk>', views.QuestionDetailView.as_view(), name='show_question')
+    path('question-view/<int:pk>', views.QuestionDetailView.as_view(), name='show_question'),
+    path('results', views.ResultsView.as_view(), name='results')
 ]

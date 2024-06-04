@@ -30,6 +30,7 @@
                 <div class="col-4 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:show_question' question.id %}'; return false;" id="{{question.id}}">{{question.points}}</button></div>
             {% endif %}
         {% endfor %}
+        <p id="results-url-holder" style="display: none;">{% url 'main:results' %}</p>
     </div>
 </body>
 </html>

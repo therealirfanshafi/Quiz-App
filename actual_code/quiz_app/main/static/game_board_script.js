@@ -5,7 +5,11 @@ window.onload = () => {
     document.querySelector('.board').appendChild(teamElm);
 
     const completedQuestions = JSON.parse(sessionStorage.getItem('completedQuestions'))
+    
     console.log(completedQuestions)
+    if (completedQuestions.length === 20) {
+        window.location = document.getElementById('results-url-holder').textContent;
+    }
 
     for (question of completedQuestions) {
         const qButton = document.getElementById(question);
