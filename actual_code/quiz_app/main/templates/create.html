@@ -13,7 +13,13 @@
             {% csrf_token %}
             {{form|crispy}}
             <input type="submit" value="Submit" id="submit" class="confirm">
-            <input type="submit" value="Cancel" id="cancel" class="confirm" onclick="window.location='{% url 'main:home_page' %}'; return false;">
+            <input type="submit" value="Cancel" id="cancel" class="confirm" onclick="window.location=
+            {% if is_game %}
+            '{% url 'main:question_update_list' object.game.id %}'; 
+            {% else %}
+            '{% url 'main:home_page' %}';
+            {% endif %}
+            return false;">
         </form>
         {% if message %}
             {{message}}

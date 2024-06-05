@@ -1,8 +1,9 @@
 from typing import Any
 from django.db.models.query import QuerySet
+from django.forms import BaseModelForm
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.db.models import Count
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -14,8 +15,7 @@ from .models import *
 class Home(LoginRequiredMixin, View):
     def get(self, request):
         created_games = Game.objects.all()
-        completed_games = Game.objects.annotate(num_qs=Count('question')).filter(num_qs=20)
-        ctx = {'created_games': created_games, 'completed_games':completed_games}
+        ctx = {'created_games': created_games}
         return render(request, 'home.html', ctx)
     
 
@@ -24,12 +24,6 @@ class GameSelectorView(LoginRequiredMixin, ListView):
     template_name = 'game_selector.html'
     context_object_name = 'games'
 
-    def get_queryset(self) -> QuerySet[Any]:
-        games = super().get_queryset()
-        games = games.annotate(num_qs=Count('question')).filter(num_qs=20)
-        if games:
-            return games
-        return redirect(reverse_lazy('main:home_page'))
     
 
 class GameCreateView(LoginRequiredMixin, CreateView):
@@ -39,11 +33,49 @@ class GameCreateView(LoginRequiredMixin, CreateView):
     fields = '__all__'
 
 
-class QuestionCreateView(LoginRequiredMixin, CreateView):
+    def form_valid(self, form):
+        game = form.save()
+
+        for i in range(game.number_of_questions_per_category):
+            Question.objects.create(game=game, points = (i + 1)*100, category = game.category_1)
+
+        for i in range(game.number_of_questions_per_category):
+             Question.objects.create(game=game, points = (i + 1)*100, category = game.category_2)
+
+        if game.category_3:
+            for i in range(game.number_of_questions_per_category):
+             Question.objects.create(game=game, points = (i + 1)*100, category = game.category_3)
+
+        if game.category_4:
+            for i in range(game.number_of_questions_per_category):
+             Question.objects.create(game=game, points = (i + 1)*100, category = game.category_4)
+
+        return super().form_valid(form)
+    
+
+class GameQuestionCreateListView(LoginRequiredMixin, ListView):
+    model = Game
+    template_name = 'game_questions_update_selector.html'
+    context_object_name = 'games'
+
+class QuestionUpdateListView(LoginRequiredMixin, DetailView):
+    model = Game
+    template_name = 'question_updator.html'
+    context_object_name = 'game'
+
+
+class QuestionCreateAndUpdateView(LoginRequiredMixin, UpdateView):
     model = Question
     template_name = 'create.html'
-    fields = '__all__'
-    success_url = reverse_lazy('main:home_page')
+    fields = ['question_text', 'question_image', 'answer']
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['is_game'] = True 
+        return ctx
+
+    def get_success_url(self) -> str:
+        return reverse_lazy('main:question_update_list', args=[self.object.game.id])
 
 
 class GameUpdateListView(LoginRequiredMixin, ListView):
@@ -69,26 +101,6 @@ class GameDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'delete.html'
     context_object_name = 'object'
     success_url = reverse_lazy('main:home_page')
-
-
-class QuestionUpdateListView(LoginRequiredMixin, DetailView):
-    model = Game
-    template_name = 'question_updator.html'
-    context_object_name = 'game'
-
-
-class QuestionUpdateView(LoginRequiredMixin, UpdateView):
-    model = Question
-    template_name = 'create.html'
-    fields = '__all__'
-    success_url = reverse_lazy('main:game_update_list')
-
-
-class QuestionDeleteView(LoginRequiredMixin, DeleteView):
-    model = Question
-    template_name = 'delete.html'
-    context_object_name = 'object'
-    success_url = reverse_lazy('main:game_update_list')
 
 
 class GamePlayView(LoginRequiredMixin, DetailView):

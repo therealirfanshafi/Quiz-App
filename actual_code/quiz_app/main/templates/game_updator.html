@@ -11,11 +11,7 @@
         <ul>
             <h3>Select an option</h3>
             {% for game in games %}
-                <li>{{game}} (
-                    {% if game.question_set.all %}
-                        <a href="{% url 'main:question_update_list' game.id%}">Update questions</a> |
-                    {% endif %}
-                    <a href="{% url 'main:game_update' game.id %}">Update Game Info</a> | <a href="{% url 'main:game_delete' game.id %}">Delete Game</a>)
+                <li>{{game}} (<a href="{% url 'main:game_update' game.id %}">Update Game Info</a> | <a href="{% url 'main:game_delete' game.id %}">Delete Game</a>)
                 </li>
             {% endfor%}
         </ul>

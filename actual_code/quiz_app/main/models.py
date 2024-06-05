@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 
 
@@ -10,6 +11,7 @@ class Game(models.Model):
     category_2 = models.CharField(max_length=20)
     category_3 = models.CharField(max_length=20, null=True, blank=True)
     category_4 = models.CharField(max_length=20, null=True, blank=True)
+    number_of_questions_per_category = models.IntegerField(default=5, validators=[MaxValueValidator(5, 'There can be a maximum of 5 questions per category')])
 
 
     def __str__(self):
@@ -22,12 +24,12 @@ def get_image_name(instance, filename):
 
 
 class Question(models.Model):
-    question_text = models.TextField(blank=True, null=True)
+    question_text = models.TextField(blank=True, null=True, default='Some question')
     question_image = models.ImageField(upload_to=get_image_name, blank=True, null=True)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     points = models.IntegerField()
     category = models.CharField(max_length=20)
-    answer = models.CharField(max_length=50)
+    answer = models.CharField(max_length=50, default='Some Answer')
 
     def clean(self):
         if not (self.category in (self.game.category_1, self.game.category_2, self.game.category_3, self.game.category_4)) :

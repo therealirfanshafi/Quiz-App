@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'board_style.css' %}">
     <title>Document</title>
 </head>
 <body>
-    {% extends "base_bootstrap.html" %}
-    {% block content%}
-        <ul>
-            {% for question in game.question_set.all %}
-                <li>{{question}} (<a href="{% url 'main:question_update' question.id %}">Update</a> | <a href="{% url 'main:question_delete' question.id %}">Delete</a> )</li>
-            {% endfor%}
-        </ul>
-        <button onclick="window.location='{% url 'main:game_update_list' %}'; return false;">Go Back</button> 
-    {% endblock %}
+    {% load calculations %}
+    <h1>Select question to update</h1>
+    <div class="board">
+        <h1 class="row-1 col-1">{{game.category_1}}</h1>
+        <h1 id="row-1 col-2">{{game.category_2}}</h1>
+        {% if game.category_3 %}
+        <h1 id="row-1 col-3">{{game.category_3}}</h1>
+        {% endif %}
+        {% if game.category_4 %}
+        <h1 id="row-1 col-4">{{game.category_4}}</h1>
+        {% endif %}
+        {% for question in game.question_set.all %}
+            {% if question.category == game.category_1 %}
+                <div class="col-1 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:question_create_or_update' question.id %}'; return false;" id="{{question.id}}">{{question.points}}</button></div>
+            {% elif question.category == game.category_2 %}
+                <div class="col-2 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:question_create_or_update' question.id %}'; return false;" id="{{question.id}}">{{question.points}}</button></div>
+            {% elif question.category == game.category_3 %}
+                <div class="col-3 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:question_create_or_update' question.id %}'; return false;" id="{{question.id}}">{{question.points}}</button></div>
+            {% else %}
+                <div class="col-4 row-{{question.points|get_col}} question"><button onclick="window.location='{% url 'main:question_create_or_update' question.id %}'; return false;" id="{{question.id}}">{{question.points}}</button></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <button onclick="window.location = '{% url 'main:game_question_create_list' %}'">Go back</button>
 </body>
 </html>
